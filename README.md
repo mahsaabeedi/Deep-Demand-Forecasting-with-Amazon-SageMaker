@@ -137,17 +137,17 @@ Below is a screenshot:
 
 I plotted 20 graphs for 20 Agency-SKU combinations below. Each graph has time(month/2017) as x-axis and demand volume(hectoliters) as y-axis. The black line is actual volume and the red line is the predicted volume averaged by all samples, which is the mean prediction. Mean prediction is only a point estimate, and we can see some predicted values can't catch the trend.
 
-![alt text](Plot of pred vs. actual volume demand in 2017 50-70.png)
+![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/Plot%20of%20pred%20vs.%20actual%20volume%20demand%20in%202017%2050-70.png)
 
 * Adding 10%-90% quantiles to the actual-pred plot
 I obtained predicted 10% and 90% quantiles using batch transform, so I could add the 80% interval to the plot to better catch the trend of ther predicted demand. We can see below that the 80% intervals of most plots catch the general trend of the actual values. An interval like this can help better prepare for the future volume demand for each Agency-SKU combination.
 
-![alt text](https://github.com/ensembles4612/product_demand_forecast_using_DeepAR_Amazon_SageMaker/blob/master/Plot%20of%20pred%20vs.%20actual%20volume%20demand%20in%202017%2050-70%20with%2080%25%20interval.png "pred vs actual with interval")
+![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/Plot%20of%20pred%20vs.%20actual%20volume%20demand%20in%202017%2050-70%20with%2080%25%20interval.png "pred vs actual with interval")
 
 ## Productionization
 
 I invoked the model endpoint deployed by Amazon SageMaker using API Gateway and AWS Lambda. For testing purposes, I used Postman. Below is a screenshot:
 
-![alt text](https://github.com/ensembles4612/product_demand_forecast_using_DeepAR_Amazon_SageMaker/blob/master/test-on-postman.png)
+![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/test-on-postman.png)
 
 How it works: starting from the client side, a client script calls an Amazon API Gateway and passes parameter values. API Gateway is a layer that provides API to the client. In addition, it seals the backend so that AWS Lambda stays and executes in a protected private network. API Gateway passes the parameter values to the Lambda function. The Lambda function parses the value and sends it to the SageMaker model endpoint. The model performs the prediction and returns the predicted value to AWS Lambda. The Lambda function parses the returned value and sends it back to API Gateway. API Gateway responds to the client with that value.
