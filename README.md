@@ -38,6 +38,7 @@ methods:
 * By learning from similar items, DeepAR is able to provide forecasts for items with little or no history at all, a case where traditional single-item forecasting methods fail. Traditional methods such as ARIMA or ES rely solely on the historical data of an individual time series, and as such they are typically less accurate in the cold start case.
 * Our approach does not assume Gaussian noise, but can incorporate a wide range of likelihood functions, allowing the user to choose one that is appropriate for the statistical properties of the data. Especially in the demand forecasting domain, one is often faced with highly erratic, intermittent or bursty data which violate core assumptions of many classical techniques, such as Gaussian errors, stationarity, or homoscedasticity of the time series.
 ![Alt text](image-1.png)
+
 ## Sagemaker Instance Setup
 
 After downloading the data from Kaggle and uploading them to aws S3 bucket, I set up an instance in sagemaker with an IAM role created where I created a Python SDK notebook. In the notebook, I connected the notebook instance with the data in S3 bucket using IAM role, and configured the DeepAR container image to be used for the region that I ran in.  
@@ -95,7 +96,7 @@ I made an interactive dashboard for data visualization regarding product demand,
 
 Below is a screenshot:
 
-[Alt text](image-2.png)
+![Alt text](image-2.png)
 
 ## Model Training and Fine-tuning
 
@@ -136,7 +137,7 @@ Below is a screenshot:
 
 I plotted 20 graphs for 20 Agency-SKU combinations below. Each graph has time(month/2017) as x-axis and demand volume(hectoliters) as y-axis. The black line is actual volume and the red line is the predicted volume averaged by all samples, which is the mean prediction. Mean prediction is only a point estimate, and we can see some predicted values can't catch the trend.
 
-![alt text](https://github.com/ensembles4612/product_demand_forecast_using_DeepAR_Amazon_SageMaker/blob/master/Plot%20of%20pred%20vs.%20actual%20volume%20demand%20in%202017%2050-70.png "pred vs actual")
+![alt text](Plot of pred vs. actual volume demand in 2017 50-70.png)
 
 * Adding 10%-90% quantiles to the actual-pred plot
 I obtained predicted 10% and 90% quantiles using batch transform, so I could add the 80% interval to the plot to better catch the trend of ther predicted demand. We can see below that the 80% intervals of most plots catch the general trend of the actual values. An interval like this can help better prepare for the future volume demand for each Agency-SKU combination.
