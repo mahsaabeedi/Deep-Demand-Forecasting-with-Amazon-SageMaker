@@ -88,10 +88,10 @@ Here is the end-to-end training and deployment process architecture:
 * Input data is stored in an Amazon S3 bucket.
 * Utilize the provided SageMaker notebook to retrieve the input data and initiate subsequent stages.
 * Employ a preprocessing step for normalizing the input data. This involves using a SageMaker processing job configured as a microservice. Users can build and register their Docker image via Amazon ECR and execute the job using Amazon SageMaker.
-* Train an LSTNet model using the preprocessed data. Evaluate the results using Amazon SageMaker.
+* Train a Deep AR model using the preprocessed data. Evaluate the results using Amazon SageMaker.
 * Optionally, deploy the trained model and create a SageMaker endpoint.
 * The SageMaker endpoint created in the previous step is an HTTPS endpoint capable of producing predictions.
-* Monitor the training and the deployed model through Amazon CloudWatch.
+
 
 ### Inference Process:
 
@@ -99,8 +99,9 @@ Here is the end-to-end training and deployment process architecture:
 * From the SageMaker notebook, normalize the new input data using the statistics obtained from the training data.
 * Send requests to the SageMaker endpoint.
 * Receive predictions from the endpoint.
-* This architecture ensures a seamless transition from data storage and preprocessing to model training, deployment, and subsequent inference. The utilization of SageMaker processing jobs and endpoints streamlines the workflow, while CloudWatch monitoring provides insights into both the training and deployment phases.
+* This architecture ensures a seamless transition from data storage and preprocessing to model training, deployment, and subsequent inference. The utilization of SageMaker processing jobs and endpoints streamlines the workflow.
 
+  
 ## EDA using Tableau
 I have created an interactive dashboard on Tableau Public that visualizes trends in product demand, on-sale prices, and promotions from 2013 to 2017. You can access it through my Tableau Public profile.
 https://public.tableau.com/app/profile/mahsa.abedi/viz/productdemandDashboard_16983305450490/InteractiveDashboard?publish=yes
