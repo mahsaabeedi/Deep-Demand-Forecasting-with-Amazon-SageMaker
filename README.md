@@ -2,7 +2,7 @@
 
 ## Project Highlights 
 
-* Simultaneously forecasted the monthly volume demand (hectoliters) for 350 Agency-SKU combination beer products by leveraging DeepAR in SageMaker on AWS. This involved utilizing not only the historical data of the products but also incorporating influential factors such as price and promotions.
+* Simultaneously forecasted the monthly volume demand (hectoliters) for 350 Agency-SKU (stock-keeping unit) combination beer products by leveraging DeepAR in SageMaker on AWS. This involved utilizing not only the historical data of the products but also incorporating influential factors such as price and promotions.
 * Employed the auto-tuning job feature in SageMaker to train and fine-tune the DeepAR models, achieving a test error (RMSE) of 760.
 * Deployed the tuned model as an endpoint, enabling predictions through API Gateway and AWS Lambda. The predictions were made accessible via the endpoint: https://wol03vnof2.execute-api.us-east-2.amazonaws.com/beta (now deleted to avoid ongoing charges).
 * Conducted forecasting with a cold start, generating predictions for previously unseen Agency-SKU combinations.
