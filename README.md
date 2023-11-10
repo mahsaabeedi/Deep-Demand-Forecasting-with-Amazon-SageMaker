@@ -38,6 +38,8 @@ In contrast to classical methods and other global approaches, DeepAR offers seve
 
 * Minimal Manual Feature Engineering: DeepAR learns seasonal patterns and dependencies on covariates across time series, reducing the need for extensive manual feature engineering to capture intricate, group-dependent behavior.
 
+* To facilitate learning time-dependent patterns, such as spikes during weekends, DeepAR automatically creates feature time series based on the frequency of the target time series. It uses these derived feature time series with the custom feature time series that you provide during training and inference. 
+
 * Probabilistic Forecasts: DeepAR produces probabilistic forecasts in the form of Monte Carlo samples. These samples enable the computation of consistent quantile estimates for various sub-ranges within the prediction horizon. The methodology provides both point forecasts (e.g., predicting the exact number of sneakers sold in a week) and probabilistic forecasts (e.g., estimating the range of sneakers sold in a week with a certain probability).
 
 * Handling Cold Start Cases: DeepAR leverages knowledge from similar items, enabling accurate forecasts even for items with limited or no historical data. This capability addresses a common challenge where traditional single-item forecasting methods, such as ARIMA or ES, tend to be less accurate in scenarios with minimal historical information.
