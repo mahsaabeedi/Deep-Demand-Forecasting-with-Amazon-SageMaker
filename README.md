@@ -1,20 +1,23 @@
-# Product Demand Forecast Using DeepAR as Endpoint deployed with API Gateway and AWS Lambda in SageMaker
+# Predicting product demand using the DeepAR algorithm deployed as an endpoint through API Gateway and AWS Lambda within the SageMaker environment.
 
 ## Project Highlights 
 
-* predicted monthly volume demand(hectoliters) for 350 Agency-SKU combination beer products simultaneously based on not only their own historical data but also other impactful features such as price and promotions using DeepAR in SageMaker AWS
-* trained and fine-tuned the DeepAR models using auto-tuning job, a built-in function in Sagemaker, and obtained test error(RMSE)=760
-* deployed the model as an endpoint and invoked it using API Gateway and AWS Lambda to make predictions on https://wol03vnof2.execute-api.us-east-2.amazonaws.com/beta (deleted to stop billing)
-* Forecasted with a cold start: making predictions for unseen Agency-SKU combinations 
+* Simultaneously forecasted the monthly volume demand (hectoliters) for 350 Agency-SKU combination beer products by leveraging DeepAR in SageMaker on AWS. This involved utilizing not only the historical data of the products but also incorporating influential factors such as price and promotions.
+* Employed the auto-tuning job feature in SageMaker to train and fine-tune the DeepAR models, achieving a test error (RMSE) of 760.
+* Deployed the tuned model as an endpoint, enabling predictions through API Gateway and AWS Lambda. The predictions were made accessible via the endpoint: https://wol03vnof2.execute-api.us-east-2.amazonaws.com/beta (now deleted to avoid ongoing charges).
+* Conducted forecasting with a cold start, generating predictions for previously unseen Agency-SKU combinations.
 
 ## Project Object
 
-The company has a large portfolio of beer products distributed to retailers through agencies. There are thousands of unique agency-SKU/product combinations. In order to plan its production and distribution as well as help agencies with their planning, it is important for the company to have an accurate estimate of monthly demand at SKU level for each agency.
+The company, with an extensive array of beer products distributed through agencies to retailers, manages a vast number of unique agency-SKU/product combinations. Ensuring accurate monthly demand estimates at the SKU level for each agency is crucial for effective production and distribution planning, as well as aiding agencies in their own planning processes.
 
-Our purpose is to achieve the following using DeepAR algorithm:
-* taking advantage of DeepAR's RNN framework. To predict product demand that's not only trained on their own historical data, but also trained on historical data of other variables(e.g., on-sale price and promotion price) that have impact on product demand.
-* predicting the monthly demand volume(hectoliters) for each Agency-SKU combination (350 Agency-SKU combinations in total) for year 2018 based on data from 2013-2017.
-* handling cold start problems, which is to forecast volume demand for new Agency-SKU combinations that we don't have any data on.
+Our objective is to achieve the following using the DeepAR algorithm:
+
+* Capitalizing on DeepAR's RNN framework, we aim to predict product demand by training the model not only on individual product historical data but also on the historical data of other variables (e.g., on-sale price and promotion price) that influence product demand.
+
+* Forecasting the monthly demand volume (hectoliters) for each of the 350 Agency-SKU combinations throughout the year 2018, drawing insights from data spanning 2013-2017.
+
+* Addressing cold start challenges by developing forecasts for the volume demand of new Agency-SKU combinations, where historical data is unavailable.
 
 ## Code and References
 
@@ -29,14 +32,17 @@ Our purpose is to achieve the following using DeepAR algorithm:
 ![Alt text](image.png)
 ## Why use Amazon Sagemaker DeepAR Algorithm
 
-DeepAR, a methodology for producing accurate probabilistic forecasts based on training autoregressive recurrent networks, which learns such a global model from historical data of all time series in the data set. The method builds upon previous research on deep learning for time series data, and tailors a similar LSTM-based recurrent neural network architecture to the probabilistic forecasting problem.
+DeepAR is a methodology designed to generate precise probabilistic forecasts by training autoregressive recurrent networks. This innovative approach learns a global model from the historical data of all time series within the dataset, building upon prior research in deep learning for time series data. It customizes a recurrent neural network architecture based on Long Short-Term Memory (LSTM) for the specific challenges of probabilistic forecasting.
 
-In addition to providing better forecast accuracy than previous methods, DeepAR has a number key advantages compared to classical approaches and other global
-methods: 
-* As DeepAR learns seasonal behavior and dependencies on given covariates across time series, minimal manual feature engineering is needed to capture complex, group-dependent behavior; 
-* DeepAR makes probabilistic forecasts in the form of Monte Carlo samples that can be used to compute consistent quantile estimates for all sub-ranges in the prediction horizon; DeepAR also produces both point forecasts (e.g., the amount of sneakers sold in a week is X) and probabilistic forecasts (e.g., the amount of sneakers sold in a week is between X and Y with Z% probability). 
-* By learning from similar items, DeepAR is able to provide forecasts for items with little or no history at all, a case where traditional single-item forecasting methods fail. Traditional methods such as ARIMA or ES rely solely on the historical data of an individual time series, and as such they are typically less accurate in the cold start case.
-* Our approach does not assume Gaussian noise, but can incorporate a wide range of likelihood functions, allowing the user to choose one that is appropriate for the statistical properties of the data. Especially in the demand forecasting domain, one is often faced with highly erratic, intermittent or bursty data which violate core assumptions of many classical techniques, such as Gaussian errors, stationarity, or homoscedasticity of the time series.
+In contrast to classical methods and other global approaches, DeepAR offers several key advantages:
+
+* Minimal Manual Feature Engineering: DeepAR learns seasonal patterns and dependencies on covariates across time series, reducing the need for extensive manual feature engineering to capture intricate, group-dependent behavior.
+
+* Probabilistic Forecasts: DeepAR produces probabilistic forecasts in the form of Monte Carlo samples. These samples enable the computation of consistent quantile estimates for various sub-ranges within the prediction horizon. The methodology provides both point forecasts (e.g., predicting the exact number of sneakers sold in a week) and probabilistic forecasts (e.g., estimating the range of sneakers sold in a week with a certain probability).
+
+* Handling Cold Start Cases: DeepAR leverages knowledge from similar items, enabling accurate forecasts even for items with limited or no historical data. This capability addresses a common challenge where traditional single-item forecasting methods, such as ARIMA or ES, tend to be less accurate in scenarios with minimal historical information.
+
+* Flexible Likelihood Functions: DeepAR does not assume Gaussian noise and allows the incorporation of a wide range of likelihood functions. This flexibility empowers users to select a likelihood function tailored to the statistical properties of the data. Particularly in demand forecasting, where data often exhibits erratic, intermittent, or bursty patterns, DeepAR's ability to accommodate diverse likelihood functions is valuable. This stands in contrast to classical techniques that rely on assumptions like Gaussian errors, stationarity, or homoscedasticity, which may not hold in real-world scenarios.
 ![Alt text](image-1.png)
 
 ## Sagemaker Instance Setup
@@ -47,52 +53,55 @@ Refer here for getting started with your AWS credentials for accessing Sage make
 
 ## Data Cleaning
 
-After the instance setup, I did some data cleaning, transforming the dataset from csv format to json lines with certain requirements so DeepAR algorithm is able to process it. The data originally is tabular from Jan 2013 to Dec 2017 with 7 columns:
-* Agency (agency that sells SKUs, e.g., Agency_01)
-* SKU (a certain beer product, e.g., SKU_01)
-* YearMonth (yyyymm, e.g., 201701)
-* Volume (actual volume sales, hectoliters), 
-* Price (regular price, $/hectoliters), 
-* Sales (on-sale price,$/hectoliters)
-* Promotions (Promotions = Price -Sales, $/hectoliter)
+Following the instance setup, I conducted comprehensive data cleaning, converting the original tabular dataset from CSV format to JSON lines to meet the specific requirements of the DeepAR algorithm. The original data spanned from January 2013 to December 2017 and comprised seven columns:
 
-The main data cleaning I did:
-* loaded the datasets from S3 bucket and joined them
-* encoded categorical features -- Agency and SKU to numbers (e.g. Agency_01 and SKU_01 are now [0,0]) required by DeepAR
-* changed variables -- Sales and Promotions to dynamic feature format required by DeepAR so they can help predict demand volume for each Agency-SKU combination 
-* splitted data to training and test sets: 
-  * training set: 48-month data from 2013-01 to 2016-12
-  * test set: 12-month data from 2017-01 to 2017-12
-* transformed the tabular dataset to dictionary format
-* transformed the dictionary format to json lines format which is then uploaded to S3 bucket
+Agency (e.g., Agency_01)
+SKU (e.g., SKU_01)
+YearMonth (yyyymm, e.g., 201701)
+Volume (actual volume sales in hectoliters)
+Price (regular price in $ per hectoliter)
+Sales (on-sale price in $ per hectoliter)
+Promotions (Promotions = Price - Sales in $ per hectoliter)
+The key steps in data cleaning were as follows:
 
-After cleaning and transforming data to jsonlines, for example, the first 2 lines in test set look like:
+* Loaded datasets from the S3 bucket and performed a join operation.
+* Encoded categorical features, namely Agency and SKU, into numerical representations (e.g., Agency_01 and SKU_01 became [0, 0]), as required by DeepAR.
+* Adapted variables Sales and Promotions into the dynamic feature format mandated by DeepAR, ensuring they contribute to predicting demand volume for each Agency-SKU combination.
+* Split the data into training and test sets:
+* Training set: 48-month data from January 2013 to December 2016.
+* Test set: 12-month data from January 2017 to December 2017.
+* Transformed the tabular dataset into a dictionary format.
+* Converted the dictionary format into JSON lines format, subsequently uploading it to the S3 bucket.
+* After this cleaning and transformation process, a snippet of the first two lines in the test set appears as follows:
 `{"start": "2013-01-01 00:00:00", "target": [80.676, 98.064, 133.704, ..., 37.908, 35.532], "cat": [0, 0], "dynamic_feat": [[1033.432731, 1065.417195, 1101.133633, ..., 1341.864851, 1390.112272], [108.067269, 76.08280500000001, 78.212187, ..., 281.01264199999997, 273.68522]]}`
 
 `{"start": "2013-01-01 00:00:00", "target": [78.408, 99.25200000000001, 137.268, ..., 24.191999999999997, 17.172], "cat": [0, 1], "dynamic_feat": [[969.1862085000001, 996.9507620999, 1061.272227, ..., 1351.3808589999999, 1412.680031], [104.9715905, 77.99408290000001, 67.71759399, ..., 321.32673, 284.895441]]}`
 
 
 ## Architecture Overview
-Here is architecture for the end-to-end training and deployment process
+Here is the end-to-end training and deployment process architecture:
 
-Solution Architecture
+### Training Process:
 
-The input data located in an Amazon S3 bucket
-The provided SageMaker notebook that gets the input data and launches the later stages below
-Preprocessing step to normalize the input data. We use SageMaker processing job that is designed as a microservice. This allows users to build and register their own Docker image via Amazon ECR and execute the job using Amazon SageMaker
-Training an LSTNet model using the previous preprocessed step and evaluating its results using Amazon SageMaker. If desired, one can deploy the trained model and create a SageMaker endpoint
-SageMaker endpoint created from the previous step, is an HTTPS endpoint and is capable of producing predictions
-Monitoring the training and deployed model via Amazon CloudWatch
-Here is the architecture of the inference
+* Input data is stored in an Amazon S3 bucket.
+* Utilize the provided SageMaker notebook to retrieve the input data and initiate subsequent stages.
+* Employ a preprocessing step for normalizing the input data. This involves using a SageMaker processing job configured as a microservice. Users can build and register their Docker image via Amazon ECR and execute the job using Amazon SageMaker.
+* Train an LSTNet model using the preprocessed data. Evaluate the results using Amazon SageMaker.
+* Optionally, deploy the trained model and create a SageMaker endpoint.
+* The SageMaker endpoint created in the previous step is an HTTPS endpoint capable of producing predictions.
+* Monitor the training and the deployed model through Amazon CloudWatch.
 
-Solution Architecture
+### Inference Process:
 
-The input data, located in an Amazon S3 bucket
-From SageMaker notebook, normalize the new input data using the statistics of the training data
-Sending the requests to the SageMaker endpoint
-Predictions
+* Input data is stored in an Amazon S3 bucket.
+* From the SageMaker notebook, normalize the new input data using the statistics obtained from the training data.
+* Send requests to the SageMaker endpoint.
+* Receive predictions from the endpoint.
+* This architecture ensures a seamless transition from data storage and preprocessing to model training, deployment, and subsequent inference. The utilization of SageMaker processing jobs and endpoints streamlines the workflow, while CloudWatch monitoring provides insights into both the training and deployment phases.
+
 ## EDA using Tableau
-I made an interactive dashboard for data visualization regarding product demand, on-sale price and promotion trend over 2013-2017. It can be found in Tableau Public under my profile: https://public.tableau.com/app/profile/mahsa.abedi/viz/productdemandDashboard_16983305450490/InteractiveDashboard?publish=yes
+I have created an interactive dashboard on Tableau Public that visualizes trends in product demand, on-sale prices, and promotions from 2013 to 2017. You can access it through my Tableau Public profile.
+https://public.tableau.com/app/profile/mahsa.abedi/viz/productdemandDashboard_16983305450490/InteractiveDashboard?publish=yes
 
 Below is a screenshot:
 
@@ -146,8 +155,16 @@ I obtained predicted 10% and 90% quantiles using batch transform, so I could add
 
 ## Productionization
 
-I invoked the model endpoint deployed by Amazon SageMaker using API Gateway and AWS Lambda. For testing purposes, I used Postman. Below is a screenshot:
+I activated the Amazon SageMaker model endpoint using API Gateway and AWS Lambda, and the testing phase was carried out using Postman. The accompanying screenshot visually represents this procedural sequence.
 
 ![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/test-on-postman.png)
 
-How it works: starting from the client side, a client script calls an Amazon API Gateway and passes parameter values. API Gateway is a layer that provides API to the client. In addition, it seals the backend so that AWS Lambda stays and executes in a protected private network. API Gateway passes the parameter values to the Lambda function. The Lambda function parses the value and sends it to the SageMaker model endpoint. The model performs the prediction and returns the predicted value to AWS Lambda. The Lambda function parses the returned value and sends it back to API Gateway. API Gateway responds to the client with that value.
+Here's how the workflow operates:
+* On the client side, a client script initiates a call to an Amazon API Gateway, passing parameter values.
+* The API Gateway serves as an intermediary layer, offering an API to the client and securing the backend, ensuring AWS Lambda operates within a protected private network.
+* API Gateway forwards the parameter values to the Lambda function.
+* The Lambda function parses the received values and transmits them to the SageMaker model endpoint.
+* The model conducts the prediction and returns the predicted value to AWS Lambda.
+* AWS Lambda interprets the returned value, sending it back to API Gateway.
+* API Gateway responds to the client with the predicted value.
+* This orchestrated interaction ensures a secure and seamless flow of information between the client, API Gateway, AWS Lambda, and the SageMaker model endpoint.
