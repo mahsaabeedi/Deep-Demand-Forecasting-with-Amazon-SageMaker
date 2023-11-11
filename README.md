@@ -57,15 +57,16 @@ Refer here for getting started with your AWS credentials for accessing Sage make
 
 Following the instance setup, I conducted comprehensive data cleaning, converting the original tabular dataset from CSV format to JSON lines to meet the specific requirements of the DeepAR algorithm. The original data spanned from January 2013 to December 2017 and comprised seven columns:
 
-Agency (e.g., Agency_01)
-SKU (e.g., SKU_01)
-YearMonth (yyyymm, e.g., 201701)
-Volume (actual volume sales in hectoliters)
-Price (regular price in $ per hectoliter)
-Sales (on-sale price in $ per hectoliter)
-Promotions (Promotions = Price - Sales in $ per hectoliter)
-The key steps in data cleaning were as follows:
+* Agency (e.g., Agency_01)
+* SKU (e.g., SKU_01)
+* YearMonth (yyyymm, e.g., 201701)
+* Volume (actual volume sales in hectoliters)
+* Price (regular price in $ per hectoliter)
+* Sales (on-sale price in $ per hectoliter)
+* Promotions (Promotions = Price - Sales in $ per hectoliter)
 
+  
+The key steps in data cleaning were as follows:
 * Loaded datasets from the S3 bucket and performed a join operation.
 * Encoded categorical features, namely Agency and SKU, into numerical representations (e.g., Agency_01 and SKU_01 became [0, 0]), as required by DeepAR.
 * Adapted variables Sales and Promotions into the dynamic feature format mandated by DeepAR, ensuring they contribute to predicting demand volume for each Agency-SKU combination.
