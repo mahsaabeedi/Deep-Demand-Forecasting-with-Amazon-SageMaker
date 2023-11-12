@@ -29,7 +29,7 @@ Our objective is to achieve the following using the DeepAR algorithm:
 * **DeepAR Article:** https://aws.amazon.com/blogs/machine-learning/now-available-in-amazon-sagemaker-deepar-algorithm-for-more-accurate-time-series-forecasting/
 * **DeepAR Article:** https://towardsdatascience.com/deepar-mastering-time-series-forecasting-with-deep-learning-bc717771ce85
 
-![Alt text](image.png)
+![Alt text](/images/image.png)
 ## Why use Amazon Sagemaker DeepAR Algorithm
 
 DeepAR is a methodology designed to generate precise probabilistic forecasts by training autoregressive recurrent networks. This innovative approach learns a global model from the historical data of all time series within the dataset, building upon prior research in deep learning for time series data. It customizes a recurrent neural network architecture based on Long Short-Term Memory (LSTM) for the specific challenges of probabilistic forecasting.
@@ -45,7 +45,7 @@ In contrast to classical methods and other global approaches, DeepAR offers seve
 * Handling Cold Start Cases: DeepAR leverages knowledge from similar items, enabling accurate forecasts even for items with limited or no historical data. This capability addresses a common challenge where traditional single-item forecasting methods, such as ARIMA or ES, tend to be less accurate in scenarios with minimal historical information.
 
 * Flexible Likelihood Functions: DeepAR does not assume Gaussian noise and allows the incorporation of a wide range of likelihood functions. This flexibility empowers users to select a likelihood function tailored to the statistical properties of the data. Particularly in demand forecasting, where data often exhibits erratic, intermittent, or bursty patterns, DeepAR's ability to accommodate diverse likelihood functions is valuable. This stands in contrast to classical techniques that rely on assumptions like Gaussian errors, stationarity, or homoscedasticity, which may not hold in real-world scenarios.
-![Alt text](image-1.png)
+![Alt text](/images/image-1.png)
 
 ## Sagemaker Instance Setup
 
@@ -109,7 +109,7 @@ https://public.tableau.com/app/profile/mahsa.abedi/viz/productdemandDashboard_16
 
 Below is a screenshot:
 
-![Alt text](image-2.png)
+![Alt text](/images/image-2.png)
 
 ## Model Training and Fine-tuning
 
@@ -150,18 +150,18 @@ Below is a screenshot:
 
 I plotted 20 graphs for 20 Agency-SKU combinations below. Each graph has time(month/2017) as x-axis and demand volume(hectoliters) as y-axis. The black line is actual volume and the red line is the predicted volume averaged by all samples, which is the mean prediction. Mean prediction is only a point estimate, and we can see some predicted values can't catch the trend.
 
-![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/Plot%20of%20pred%20vs.%20actual%20volume%20demand%20in%202017%2050-70.png)
+![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/images/Plot%20of%20pred%20vs.%20actual%20volume%20demand%20in%202017%2050-70.png)
 
 * Adding 10%-90% quantiles to the actual-pred plot
 I obtained predicted 10% and 90% quantiles using batch transform, so I could add the 80% interval to the plot to better catch the trend of ther predicted demand. We can see below that the 80% intervals of most plots catch the general trend of the actual values. An interval like this can help better prepare for the future volume demand for each Agency-SKU combination.
 
-![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/Plot%20of%20pred%20vs.%20actual%20volume%20demand%20in%202017%2050-70%20with%2080%25%20interval.png "pred vs actual with interval")
+![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/images/Plot_of_pred%20vs.%20actual%20volume%20demand%20in%202017%2050-70%20with%2080%25%20interval.png)
 
 ## Productionization
 
 I activated the Amazon SageMaker model endpoint using API Gateway and AWS Lambda, and the testing phase was carried out using Postman. The accompanying screenshot visually represents this procedural sequence.
 
-![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/test-on-postman.png)
+![alt text](https://github.com/mahsaabeedi/Deep-Demand-Forecasting-with-Amazon-SageMaker/blob/main/images/test-on-postman.png)
 
 Here's how the workflow operates:
 * On the client side, a client script initiates a call to an Amazon API Gateway, passing parameter values.
