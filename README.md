@@ -45,7 +45,7 @@ In contrast to classical methods and other global approaches, DeepAR offers seve
 * Handling Cold Start Cases: DeepAR leverages knowledge from similar items, enabling accurate forecasts even for items with limited or no historical data. This capability addresses a common challenge where traditional single-item forecasting methods, such as ARIMA or ES, tend to be less accurate in scenarios with minimal historical information.
 
 * Flexible Likelihood Functions: DeepAR does not assume Gaussian noise and allows the incorporation of a wide range of likelihood functions. This flexibility empowers users to select a likelihood function tailored to the statistical properties of the data. Particularly in demand forecasting, where data often exhibits erratic, intermittent, or bursty patterns, DeepAR's ability to accommodate diverse likelihood functions is valuable. This stands in contrast to classical techniques that rely on assumptions like Gaussian errors, stationarity, or homoscedasticity, which may not hold in real-world scenarios.
-![Alt text](/images/image-1.png)
+
 
 ## Sagemaker Instance Setup
 
@@ -102,6 +102,7 @@ Here is the end-to-end training and deployment process architecture:
 * Receive predictions from the endpoint.
 * This architecture ensures a seamless transition from data storage and preprocessing to model training, deployment, and subsequent inference. The utilization of SageMaker processing jobs and endpoints streamlines the workflow.
 
+![Alt text](/images/image-1.png)
   
 ## EDA using Tableau
 I have created an interactive dashboard on Tableau Public that visualizes trends in product demand, on-sale prices, and promotions from 2013 to 2017. You can access it through my Tableau Public profile.
